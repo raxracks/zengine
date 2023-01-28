@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap');
+
+html, body {
+  background-color: #1f1e2b;
+  margin: 0;
+  font-family: 'Lexend Deca', sans-serif;
+  overflow-x: hidden;
+}
+
+.top {
+  display: flex;
+  height: 115px;
+  background-color: #252d42;
+}
+
+.categories {
+  margin-top: 80px;
+  width: 100%;
+  padding-left: 20px;
+}
+
+.search-container {
+  display: flex;
+  position: fixed;
+  background-color: #252d42;
+  width: calc(100% - 40px);
+  height: 40px;
+  padding: 20px;
+  border-radius: 0px 0px 15px 15px;
+}
+
+.top form {
+  width: 100%;
+}
+
+.top input[type=text] {
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  width: calc(100% - 20px);
+  font-family: 'Lexend Deca', sans-serif;
+}
+
+.sites-container {
+  display: flex;
+  justify-content: center;
+}
+
+.sites {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  width: 99%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.site {
+  margin: 5px;
+  border: 1px solid #454b59;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  text-decoration: none;
+  color: #6d8bf7;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:visited {
+  color: #d261e8;
+}
+
+.url {
+  color: #e0e0e0 !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.title {
+  font-size: 1.5em;
+  width: fit-content;
+}
+
+.description {
+  color: white;
+}
+
+a.active {
+  color: white;
+}
+
+a.inactive {
+  color: #b3b3b3;
+}
+
+.did-you-mean-container {
+  padding: 10px;
+}
+
+.did-you-mean {
+  color: white;
+}

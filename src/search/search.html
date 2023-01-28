@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><ami>decodeURIComponent(req.query.q)</ami> - Zengine</title>
+
+    <link rel="stylesheet" href="/css/search.css">
+  </head>
+  <body>
+    <div class="top">
+      <div class="search-container">
+        <form>
+          <input type="text" name="q" value="<ami>decodeURIComponent(req.query.q)</ami>">
+        </form>
+      </div>
+      <div class="categories">
+        <ami>
+          let pages = ["all", "images"];
+
+          pages.map(page => `
+            <a class="${req.query.category ? (req.query.category === page ? 'active' : 'inactive') : page === 'all' ? 'active' : 'inactive'}" href="?q=${req.query.q}&category=${page}">${page}</a>
+          `).join("");
+        </ami>
+      </div>
+    </div>
+    <div class="sites-container">
+    <div class="sites">
+      <ami>
+      (async () => { 
+        const response = await google.search(decodeURIComponent(req.query.q), options);
+        return (response.did_you_mean ? `
+        <div class="did-you-mean-container"><span class="did-you-mean">did you mean </span>
+        <a href="?q=${response.did_you_mean}">${response.did_you_mean}</a>
+        <span class="did-you-mean">?</span></div>` : "")
+         + response.results.map(result => `
+        <div class="site">
+          <a class="url" href="${result.url}">${decodeURIComponent(result.url)}</a>
+          <a class="title" href="${result.url}">${result.title}</a>
+          <div class="description">${result.description}</div>
+        </div>`).join``;
+      })();
+      </ami>
+    </div>
+    </div>
+  </body>
+</html>
