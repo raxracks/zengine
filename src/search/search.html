@@ -13,36 +13,51 @@
       <div class="search-container">
         <form>
           <input type="text" name="q" value="<ami>decodeURIComponent(req.query.q)</ami>">
+          <ami>req.query.category ? `<input type="hidden" name="category" value="${req.query.category}">` : ""</ami>
         </form>
       </div>
       <div class="categories">
         <ami>
-          let pages = ["all", "images"];
+          let pages = ["sites", "images"];
 
           pages.map(page => `
-            <a class="${req.query.category ? (req.query.category === page ? 'active' : 'inactive') : page === 'all' ? 'active' : 'inactive'}" href="?q=${req.query.q}&category=${page}">${page}</a>
+            <a class="${req.query.category ? (req.query.category === page ? 'active' : 'inactive') : page === pages[0] ? 'active' : 'inactive'}" href="?q=${req.query.q}&category=${page}">${page}</a>
           `).join("");
         </ami>
       </div>
     </div>
     <div class="sites-container">
-    <div class="sites">
+    <div class="<ami>req.query.category || 'sites'</ami>">
       <ami>
-      (async () => { 
-        const response = await google.search(decodeURIComponent(req.query.q), options);
-        return (response.did_you_mean ? `
-        <div class="did-you-mean-container"><span class="did-you-mean">did you mean </span>
-        <a href="?q=${response.did_you_mean}">${response.did_you_mean}</a>
-        <span class="did-you-mean">?</span></div>` : "")
-         + response.results.map(result => `
-        <div class="site">
-          <a class="url" href="${result.url}">${decodeURIComponent(result.url)}</a>
-          <a class="title" href="${result.url}">${result.title}</a>
-          <div class="description">${result.description}</div>
-        </div>`).join``;
+      (async () => {
+        if(!req.query.category || req.query.category === "sites") {
+          const response = await google.search(decodeURIComponent(req.query.q), options);
+          return (response.did_you_mean ? `
+          <div class="did-you-mean-container"><span class="did-you-mean">did you mean </span>
+          <a href="?q=${response.did_you_mean}">${response.did_you_mean}</a>
+          <span class="did-you-mean">?</span></div>` : "")
+          + response.results.map(result => `
+          <div class="site">
+            <a class="url" href="${result.url}">${decodeURIComponent(result.url)}</a>
+            <a class="title" href="${result.url}">${result.title}</a>
+            <div class="description">${result.description}</div>
+          </div>`).join``;
+        } else if(req.query.category === "images") {
+          const images = await google.image(decodeURIComponent(req.query.q), { safe: false });
+          return images.map(image => `
+            <div>
+              <div class="image-div">          
+                <a href='${image.url}' target="_blank">
+                  <img src="${image.preview.url}" width="${image.preview.height}" height="${image.preview.width}" />
+                </a>
+                <a href="${image.origin.website.url}" target="_blank">${image.origin.title}</a>
+                <a href="https://${image.origin.website.domain}" target="_blank" class="origin">${image.origin.website.name}</a>
+              </div>
+            </div>
+          `).join``;
+        }
       })();
       </ami>
-    </div>
     </div>
   </body>
 </html>
